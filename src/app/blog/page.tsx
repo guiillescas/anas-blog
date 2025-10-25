@@ -20,7 +20,7 @@ export default async function BlogPage() {
               className="flex flex-col items-start justify-between"
             >
               <div className="w-full">
-                {post.mainImage && (
+                {post.mainImage?.asset?.url && (
                   <img
                     src={post.mainImage.asset.url}
                     alt={post.mainImage.alt || post.title}
@@ -58,9 +58,9 @@ export default async function BlogPage() {
                 </div>
                 {post.author && (
                   <div className="relative mt-8 flex items-center gap-x-4">
-                    {post.author.image && (
+                    {post.author.image?.asset?.url && (
                       <img
-                        src={post.author.image}
+                        src={post.author.image.asset.url}
                         alt={post.author.name}
                         className="h-10 w-10 rounded-full bg-gray-100"
                       />
