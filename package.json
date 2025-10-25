@@ -1,0 +1,32 @@
+{
+  "name": "anas-blog",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "biome check",
+    "format": "biome format --write"
+  },
+  "dependencies": {
+    "@portabletext/react": "^3.2.4",
+    "@sanity/icons": "^3.7.4",
+    "@sanity/vision": "^3.99.0",
+    "next": "16.0.0",
+    "next-sanity": "^9.12.3",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "sanity": "^3.99.0",
+    "sanity-plugin-media": "^2.4.2"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.2.0",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}
