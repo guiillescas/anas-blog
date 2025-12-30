@@ -1,5 +1,7 @@
 import { getPosts } from "@/lib/sanity-utils"
 
+export const revalidate = 3600
+
 export default async function Home() {
   const posts = await getPosts()
   const recentPosts = posts.slice(0, 3)

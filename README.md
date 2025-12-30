@@ -49,7 +49,10 @@ NEXT_PUBLIC_SANITY_PROJECT_ID=seu-project-id
 NEXT_PUBLIC_SANITY_DATASET=production
 NEXT_PUBLIC_SANITY_API_VERSION=2024-01-01
 SANITY_API_READ_TOKEN=seu-token-aqui
+SANITY_REVALIDATE_SECRET=seu-secret-aleatorio-aqui
 ```
+
+**Importante:** O `SANITY_REVALIDATE_SECRET` é usado para autenticar os webhooks do Sanity. Use uma string aleatória e segura (ex: gere com `openssl rand -base64 32`).
 
 ### 4. Rodar o Projeto
 
@@ -76,6 +79,27 @@ npm run dev
 - ✅ Download de PDFs
 - ✅ Design responsivo
 - ✅ Performance otimizada
+- ✅ Revalidação automática de cache quando novos posts são publicados
+
+## Configuração de Webhook (Revalidação de Cache)
+
+Para que novos posts apareçam automaticamente no site sem precisar fazer rebuild:
+
+1. Acesse o [Sanity Manage](https://www.sanity.io/manage)
+2. Selecione seu projeto
+3. Vá em **API** → **Webhooks**
+4. Clique em **Create webhook**
+5. Configure:
+   - **Name:** Revalidate Blog
+   - **URL:** `https://seu-dominio.com/api/revalidate?secret=SEU_SANITY_REVALIDATE_SECRET`
+   - **Dataset:** production (ou o dataset que você usa)
+   - **Trigger on:** Create, Update, Delete
+   - **Filter:** `_type == "post"`
+   - **HTTP method:** POST
+   - **API version:** v2021-03-25 ou superior
+6. Salve o webhook
+
+Agora, sempre que um post for criado, atualizado ou deletado no Sanity, o cache do Next.js será automaticamente revalidado!
 
 ## Deploy
 
@@ -83,8 +107,9 @@ npm run dev
 
 1. Faça push do código para o GitHub
 2. Conecte o repositório na [Vercel](https://vercel.com)
-3. Configure as variáveis de ambiente
-4. Deploy automático!
+3. Configure as variáveis de ambiente (incluindo `SANITY_REVALIDATE_SECRET`)
+4. Configure o webhook no Sanity apontando para sua URL de produção
+5. Deploy automático!
 
 ### Sanity Deploy
 
