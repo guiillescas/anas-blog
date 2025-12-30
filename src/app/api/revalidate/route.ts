@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
     const documentType = body._type || body.type
 
     if (documentType === "post") {
-      revalidateTag("posts")
+      revalidateTag("posts", "max")
       revalidatePath("/blog")
       revalidatePath("/")
       
