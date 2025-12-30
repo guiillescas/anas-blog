@@ -2,8 +2,6 @@ import { getPostBySlug, getPosts } from "@/lib/sanity-utils"
 import { PortableText } from "@portabletext/react"
 import { notFound } from "next/navigation"
 
-export const revalidate = 3600
-
 export async function generateStaticParams() {
   const posts = await getPosts()
   return posts.map((post) => ({

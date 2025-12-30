@@ -1,4 +1,4 @@
-import { revalidatePath } from "next/cache"
+import { revalidatePath, revalidateTag } from "next/cache"
 import { type NextRequest, NextResponse } from "next/server"
 
 export async function POST(request: NextRequest) {
@@ -13,6 +13,7 @@ export async function POST(request: NextRequest) {
     const documentType = body._type || body.type
 
     if (documentType === "post") {
+      revalidateTag("posts")
       revalidatePath("/blog")
       revalidatePath("/")
       
@@ -24,7 +25,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ 
         revalidated: true, 
         message: "Cache revalidado com sucesso",
-        paths: ["/blog", "/", slug ? `/blog/${slug}` : null].filter(Boolean)
+        paths: ["/blog", "/", slug ? `/blog/${slug}` : null].filter(Boolean),
+        tags: ["posts"]
       })
     }
 
