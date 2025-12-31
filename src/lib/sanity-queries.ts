@@ -100,3 +100,30 @@ export const postsByCategoryQuery = groq`
   }
 `
 
+export const aboutQuery = groq`
+  *[_type == "about"][0] {
+    _id,
+    _updatedAt,
+    title,
+    "mainImage": mainImage{
+      asset->{
+        _id,
+        url
+      },
+      alt
+    },
+    content,
+    "sections": sections[]{
+      title,
+      content,
+      "image": image{
+        asset->{
+          _id,
+          url
+        },
+        alt
+      }
+    }
+  }
+`
+

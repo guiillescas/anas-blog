@@ -5,6 +5,7 @@ import {
   postBySlugQuery,
   categoriesQuery,
   postsByCategoryQuery,
+  aboutQuery,
 } from "./sanity-queries"
 import type { Post, Category } from "@/types/post"
 
@@ -63,6 +64,21 @@ export async function getPostsByCategory(slug: string): Promise<Post[]> {
     [`posts-category-${slug}`],
     {
       tags: ["posts"],
+      revalidate: 3600,
+    }
+  )()
+}
+
+async function fetchAbout() {
+  return client.fetch(aboutQuery)
+}
+
+export async function getAbout() {
+  return unstable_cache(
+    async () => fetchAbout(),
+    ["about"],
+    {
+      tags: ["about"],
       revalidate: 3600,
     }
   )()
