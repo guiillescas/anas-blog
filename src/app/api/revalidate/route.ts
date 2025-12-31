@@ -30,6 +30,18 @@ export async function POST(request: NextRequest) {
       })
     }
 
+    if (documentType === "about") {
+      revalidateTag("about", "max")
+      revalidatePath("/sobre-mim")
+
+      return NextResponse.json({ 
+        revalidated: true, 
+        message: "Cache revalidado com sucesso",
+        paths: ["/sobre-mim"],
+        tags: ["about"]
+      })
+    }
+
     return NextResponse.json({ 
       message: "Tipo de documento não requer revalidação",
       receivedType: documentType 
