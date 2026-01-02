@@ -127,3 +127,108 @@ export const aboutQuery = groq`
   }
 `
 
+export const aboutSiteQuery = groq`
+  *[_type == "aboutSite"][0] {
+    _id,
+    _updatedAt,
+    title,
+    "mainImage": mainImage{
+      asset->{
+        _id,
+        url
+      },
+      alt
+    },
+    content,
+    "sections": sections[]{
+      title,
+      content,
+      "image": image{
+        asset->{
+          _id,
+          url
+        },
+        alt
+      }
+    }
+  }
+`
+
+export const materialsQuery = groq`
+  *[_type == "material"] | order(date desc) {
+    _id,
+    _createdAt,
+    title,
+    date,
+    description,
+    "coverImage": coverImage{
+      asset->{
+        _id,
+        url
+      },
+      alt
+    },
+    "pdf": pdf{
+      "asset": asset->{
+        _id,
+        url,
+        originalFilename,
+        size
+      },
+      title
+    }
+  }
+`
+
+export const materialsByYearQuery = groq`
+  *[_type == "material" && date >= $startDate && date < $endDate] | order(date desc) {
+    _id,
+    _createdAt,
+    title,
+    date,
+    description,
+    "coverImage": coverImage{
+      asset->{
+        _id,
+        url
+      },
+      alt
+    },
+    "pdf": pdf{
+      "asset": asset->{
+        _id,
+        url,
+        originalFilename,
+        size
+      },
+      title
+    }
+  }
+`
+
+export const materialsByYearMonthQuery = groq`
+  *[_type == "material" && date >= $startDate && date < $endDate] | order(date desc) {
+    _id,
+    _createdAt,
+    title,
+    date,
+    description,
+    "coverImage": coverImage{
+      asset->{
+        _id,
+        url
+      },
+      alt
+    },
+    "pdf": pdf{
+      "asset": asset->{
+        _id,
+        url,
+        originalFilename,
+        size
+      },
+      title
+    }
+  }
+`
+

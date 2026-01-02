@@ -6,6 +6,10 @@ import {
   categoriesQuery,
   postsByCategoryQuery,
   aboutQuery,
+  aboutSiteQuery,
+  materialsQuery,
+  materialsByYearQuery,
+  materialsByYearMonthQuery,
 } from "./sanity-queries"
 import type { Post, Category } from "@/types/post"
 
@@ -79,6 +83,72 @@ export async function getAbout() {
     ["about"],
     {
       tags: ["about"],
+      revalidate: 3600,
+    }
+  )()
+}
+
+async function fetchAboutSite() {
+  return client.fetch(aboutSiteQuery)
+}
+
+export async function getAboutSite() {
+  return unstable_cache(
+    async () => fetchAboutSite(),
+    ["aboutSite"],
+    {
+      tags: ["aboutSite"],
+      revalidate: 3600,
+    }
+  )()
+}
+
+async function fetchMaterials() {
+  return client.fetch(materialsQuery)
+}
+
+export async function getMaterials() {
+  return unstable_cache(
+    async () => fetchMaterials(),
+    ["materials"],
+    {
+      tags: ["materials"],
+      revalidate: 3600,
+    }
+  )()
+}
+
+async function fetchMaterialsByYear(year: number) {
+  const startDate = `${year}-01-01`
+  const endDate = `${year + 1}-01-01`
+  return client.fetch(materialsByYearQuery, { startDate, endDate })
+}
+
+export async function getMaterialsByYear(year: number) {
+  return unstable_cache(
+    async () => fetchMaterialsByYear(year),
+    [`materials-year-${year}`],
+    {
+      tags: ["materials"],
+      revalidate: 3600,
+    }
+  )()
+}
+
+async function fetchMaterialsByYearMonth(year: number, month: number) {
+  const startDate = `${year}-${String(month).padStart(2, "0")}-01`
+  const nextMonth = month === 12 ? 1 : month + 1
+  const nextYear = month === 12 ? year + 1 : year
+  const endDate = `${nextYear}-${String(nextMonth).padStart(2, "0")}-01`
+  return client.fetch(materialsByYearMonthQuery, { startDate, endDate })
+}
+
+export async function getMaterialsByYearMonth(year: number, month: number) {
+  return unstable_cache(
+    async () => fetchMaterialsByYearMonth(year, month),
+    [`materials-${year}-${month}`],
+    {
+      tags: ["materials"],
       revalidate: 3600,
     }
   )()
