@@ -7,7 +7,7 @@ import StaggeredMenu from "./StaggeredMenu"
 import Image from "next/image"
 
 const menuItems = [
-  { label: "Início", href: "/" },
+  { label: "Home", href: "/" },
   { label: "Sobre mim", href: "/sobre-mim" },
   { label: "Sobre o site", href: "/sobre-o-site" },
   { label: "Meus materiais", href: "/materiais" },
@@ -19,6 +19,11 @@ const menuItems = [
 function Header() {
   const pathname = usePathname()
   const [isScrolled, setIsScrolled] = useState(false)
+
+  // Não renderizar o header nas páginas do Sanity Studio
+  if (pathname?.startsWith("/studio")) {
+    return null
+  }
 
   useEffect(() => {
     function handleScroll() {
@@ -47,11 +52,11 @@ function Header() {
           <div className="flex h-16 items-center justify-between lg:h-20">
             <Link href="/" className="flex items-center">
               <Image
-                src="/logos/letter.png"
+                src="/logos/full-logo-name-and-letter-red-horizontal.png"
                 alt="Logo"
-                width={40}
-                height={40}
-                className="h-10 w-10 object-contain"
+                width={110}
+                height={24}
+                className="h-10 w-auto object-contain"
               />
             </Link>
 
@@ -80,7 +85,7 @@ function Header() {
         </nav>
       </header>
 
-      <div className="lg:hidden fixed inset-0 z-50">
+      <div className="lg:hidden fixed top-0 left-0 right-0 z-50 h-auto">
         <StaggeredMenu
           position="right"
           colors={["#faf5f2", "#f3eae1", "#e7d2c1"]}
@@ -91,7 +96,7 @@ function Header() {
           menuButtonColor="#673c33"
           openMenuButtonColor="#673c33"
           accentColor="#ca1b20"
-          isFixed={true}
+          isFixed={false}
           changeMenuColorOnOpen={false}
           closeOnClickAway={true}
           menuLabel="Menu"
