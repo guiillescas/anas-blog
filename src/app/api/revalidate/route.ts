@@ -42,6 +42,30 @@ export async function POST(request: NextRequest) {
       })
     }
 
+    if (documentType === "aboutSite") {
+      revalidateTag("aboutSite", "max")
+      revalidatePath("/sobre-o-site")
+
+      return NextResponse.json({ 
+        revalidated: true, 
+        message: "Cache revalidado com sucesso",
+        paths: ["/sobre-o-site"],
+        tags: ["aboutSite"]
+      })
+    }
+
+    if (documentType === "material") {
+      revalidateTag("materials", "max")
+      revalidatePath("/materiais")
+
+      return NextResponse.json({ 
+        revalidated: true, 
+        message: "Cache revalidado com sucesso",
+        paths: ["/materiais"],
+        tags: ["materials"]
+      })
+    }
+
     return NextResponse.json({ 
       message: "Tipo de documento não requer revalidação",
       receivedType: documentType 
