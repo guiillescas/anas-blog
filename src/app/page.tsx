@@ -1,13 +1,34 @@
 import { getPosts } from "@/lib/sanity-utils"
 import Link from "next/link"
+import ContactMethods from "@/components/ContactMethods"
+import ContactHero from "@/components/ContactHero"
+
+const contactInfo = {
+  name: "Ana Flávia",
+  phone: "5541999376365",
+  photo: "/me.jpg",
+  description: "Missionária compartilhando histórias e experiências",
+  email: "ana.flaviapires999@gmail.com",
+  instagram: "@ana.flaviapires",
+}
+
+function getWhatsAppLink(phone: string, message?: string) {
+  const cleaned = phone.replace(/\D/g, "")
+  const defaultMessage = encodeURIComponent(
+    "Olá! Vi seu blog e gostaria de entrar em contato."
+  )
+  const text = message ? encodeURIComponent(message) : defaultMessage
+  return `https://wa.me/55${cleaned}?text=${text}`
+}
 
 export default async function Home() {
   const posts = await getPosts()
   const recentPosts = posts.slice(0, 3)
+  const whatsappLink = getWhatsAppLink(contactInfo.phone)
 
   return (
     <div className="min-h-screen bg-white">
-      <section className="px-6 py-24 lg:py-32">
+      <section className="px-6 py-32">
         <div className="mx-auto max-w-2xl text-center">
           <h1 className="font-gastela text-5xl font-semibold tracking-tight lg:text-6xl text-neutral-900">
             Bem-vindo ao Blog da Ana
@@ -100,6 +121,21 @@ export default async function Home() {
           </div>
         </section>
       )}
+
+      <ContactHero
+        contactInfo={contactInfo}
+        whatsappLink={whatsappLink}
+        badgeText="Conecte-se"
+        title="Vamos Conversar?"
+        subtitle="Adoraria conhecer você melhor! Entre em contato através do WhatsApp ou outras redes."
+        description="Estou sempre aberta para compartilhar experiências, responder dúvidas ou simplesmente trocar uma ideia."
+      />
+
+      <ContactMethods
+        contactInfo={contactInfo}
+        title="Entre em Contato"
+        description="Siga-me nas redes sociais ou entre em contato através dos canais abaixo"
+      />
     </div>
   )
 }
